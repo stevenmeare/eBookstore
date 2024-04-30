@@ -410,6 +410,7 @@ column_info = [('id', int),
                ('quantity', int)
                ]
 
+# Define searchable columns and validate against column_info
 searchable_columns = ['id', 'title', 'author']
 validate_searchable_columns(searchable_columns, column_info)
 
