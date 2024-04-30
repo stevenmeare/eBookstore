@@ -17,6 +17,8 @@ Access options for adding, searching, editing and displaying the contents of the
 
 <img width="254" alt="book search" src="https://github.com/stevenmeare/eBookstore/assets/68360712/e24e3920-1441-4ccd-9874-43bdd32d914a">
 
+The database is searchable and will return partial matches, based on selected table columns.
+
 
 -- Entry Select Screen --
 <img width="473" alt="book inv all" src="https://github.com/stevenmeare/eBookstore/assets/68360712/0e1ee980-bb57-4259-b717-9cccf00274b3">
