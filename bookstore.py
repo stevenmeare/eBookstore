@@ -158,6 +158,13 @@ def id_is_unique(input_id):
     return count == 0
 
 #========Generic Type/Validation Methods=========
+def validate_searchable_columns(searchable_columns, column_info):
+    # Check that searchable columns are valid columns
+    for searchable_column in searchable_columns:
+        if searchable_column not in [column[0] for column in column_info]:
+            raise ValueError(f"Searchable column {searchable_column} "
+                             "not found in column_info!")
+                             
 def validate_attr_input(column_index:int, allow_blank:bool):
     attribute_name = column_info[column_index][0]
     attribute_type = column_info[column_index][1]
@@ -216,12 +223,12 @@ def get_sqlite_type(column_header, column_info):
 #======User Interface Layer/Display Records======
 def search_book():
     while True:
-        search_by = input('''Search by:
-1 - Book ID
-2 - Book Title
-3 - Author
-0 - Return
-: ''').strip()
+        print("Search by:")
+        # Dynamically populate search options based on searchable_columns
+        for index, column in enumerate(searchable_columns, 1):
+            print(f"{index} - {column}")
+        print("0 - Return to main menu")
+        search_by = input(": ").strip()
         
         # Early out if user wants to go up a level.
         if search_by == '0':
@@ -236,8 +243,8 @@ def search_book():
         # Use search_by int to dynamically populate input prompt and
         # avoid branching - will be easier to expand and manage as more
         # searchable fields added.    
-        search_term = input(f"Searching by {column_headers[search_by - 1]}: ")
-        results = search_table(column_headers[search_by - 1], search_term)
+        search_term = input(f"Searching by {searchable_columns[search_by - 1]}: ")
+        results = search_table(searchable_columns[search_by - 1], search_term)
         if len(results) == 0:
             print("No matches found!")
             search_again = input("Would you like to search again? (y/n): "
@@ -402,6 +409,9 @@ column_info = [('id', int),
                ('author', str),
                ('quantity', int)
                ]
+
+searchable_columns = ['id', 'title', 'author']
+validate_searchable_columns(searchable_columns, column_info)
 
 column_headers = [column[0] for column in column_info]
 column_types = [column[1] for column in column_info]
